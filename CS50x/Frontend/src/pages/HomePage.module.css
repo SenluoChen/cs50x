@@ -1,0 +1,250 @@
+.homePopular {
+  position: relative;
+}
+
+.homePopular::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--brand-900);
+  filter: brightness(0.82);
+  z-index: 0;
+}
+
+.homePopular > * {
+  position: relative;
+  z-index: 1;
+}
+
+.rouletteSection {
+  border-top: 1px solid var(--border-1);
+  border-bottom: 1px solid var(--border-1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  contain: layout paint;
+}
+
+.rouletteGrid {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  min-height: 420px;
+}
+
+.rouletteGrid[data-picked="1"] {
+  justify-content: center;
+}
+
+.rouletteLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+  text-align: center;
+  transition: transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  will-change: transform;
+}
+
+.rouletteGrid[data-picked="1"] .rouletteLeft {
+  align-items: flex-start;
+  text-align: left;
+  transform: translateX(-190px);
+}
+
+.rouletteTitleRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rouletteTitle {
+  color: var(--text-invert);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-size: 26px;
+}
+
+.rouletteSub {
+  color: rgba(255, 255, 255, 0.74);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.rouletteButton {
+  position: relative;
+  width: 270px;
+  height: 270px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.rouletteButton:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.rouletteWheel {
+  position: absolute;
+  inset: 16px;
+  border-radius: 999px;
+  background:
+    conic-gradient(
+      from 0deg,
+      rgba(255, 214, 102, 0.95) 0deg 35deg,
+      rgba(127, 205, 255, 0.95) 35deg 70deg,
+      rgba(255, 117, 143, 0.95) 70deg 105deg,
+      rgba(165, 255, 201, 0.95) 105deg 140deg,
+      rgba(196, 152, 255, 0.95) 140deg 175deg,
+      rgba(255, 214, 102, 0.95) 175deg 360deg
+    );
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  transition: transform 900ms cubic-bezier(0.18, 0.9, 0.22, 1);
+  will-change: transform;
+}
+
+.rouletteWheel[data-spinning="1"] {
+  filter: saturate(1.1);
+}
+
+.roulettePointer {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translateX(-50%);
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 22px solid rgba(255, 255, 255, 0.9);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+}
+
+.rouletteCta {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-900);
+  font-weight: 1000;
+  letter-spacing: 0.18em;
+  font-size: 17px;
+  background: rgba(255, 255, 255, 0.86);
+  width: 98px;
+  height: 98px;
+  border-radius: 999px;
+  margin: auto;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.rouletteHint {
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.rouletteRight {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 360px;
+  min-height: 420px;
+  opacity: 0;
+  transform: translateX(14px);
+  pointer-events: none;
+  transition: opacity 240ms ease, transform 240ms ease;
+  will-change: opacity, transform;
+}
+
+.rouletteGrid[data-picked="1"] .rouletteRight {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.rouletteCardWrap {
+  cursor: pointer;
+  transform-origin: 50% 20%;
+  animation: rouletteCardIn 320ms ease-out both;
+}
+
+/* Allow the poster inside the roulette card to overflow so tall posters aren't clipped */
+.rouletteCardWrap :global(.movieCard) {
+  overflow: visible;
+}
+
+.rouletteCardWrap :global(.poster) {
+  overflow: visible;
+}
+
+@keyframes rouletteCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.rouletteEmpty {
+  width: 100%;
+  min-height: 260px;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.74);
+  font-weight: 800;
+}
+
+@media (max-width: 980px) {
+  .rouletteGrid {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: 0;
+  }
+
+  .rouletteRight {
+    position: static;
+    right: auto;
+    top: auto;
+    max-width: 520px;
+    width: 100%;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+.roulettePoster {
+  /* override default aspect-ratio for roulette card poster to ensure full poster visible */
+  aspect-ratio: auto;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+  .rouletteGrid[data-picked="1"] .rouletteLeft {
+    transform: none;
+  }
+
+  .rouletteButton {
+    width: 240px;
+    height: 240px;
+  }
+
+  .rouletteCta {
+    width: 92px;
+    height: 92px;
+  }
+}

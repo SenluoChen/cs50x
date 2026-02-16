@@ -1,0 +1,260 @@
+.movieGrid {
+  display: grid;
+  /* Fixed-size columns so 1–2 cards don't get stretched far apart on wide screens */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 360px));
+  gap: 28px;
+  /* Stretch items so cards in a row share height */
+  align-items: stretch;
+  justify-items: start;
+  justify-content: start;
+  margin-top: 14px;
+  margin-bottom: 36px;
+}
+
+@media (max-width: 640px) {
+  .movieGrid {
+    grid-template-columns: repeat(auto-fit, minmax(144px, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Home: slightly roomier grid */
+.homeMovieGrid {
+  grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
+  gap: 32px;
+  margin-top: 18px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 640px) {
+  .homeMovieGrid {
+    grid-template-columns: repeat(auto-fit, minmax(144px, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Prevent a single card from expanding to full container width */
+.movieGrid > .movieCard {
+  width: 100%;
+  max-width: 360px;
+}
+
+.movieCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--brand-900);
+  border-radius: var(--radius-2);
+  border: 1px solid color-mix(in srgb, var(--text-invert) 22%, transparent);
+  box-shadow:
+    var(--shadow-1),
+    0 0 0 1px color-mix(in srgb, var(--text-invert) 10%, transparent),
+    0 0 14px color-mix(in srgb, var(--text-invert) 10%, transparent);
+  overflow: hidden;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.movieCard:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    var(--shadow-2),
+    0 0 0 1px color-mix(in srgb, var(--text-invert) 16%, transparent),
+    0 0 18px color-mix(in srgb, var(--text-invert) 14%, transparent);
+}
+
+/* Favorites (heart) button on movie cards */
+.favBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--text-invert) 18%, transparent);
+  background: color-mix(in srgb, var(--brand-900) 72%, transparent);
+  color: var(--text-invert);
+  box-shadow: 0 10px 24px rgba(10, 12, 16, 0.4);
+  cursor: pointer;
+  backdrop-filter: blur(6px) saturate(120%);
+}
+
+.favBtn:hover {
+  border-color: color-mix(in srgb, var(--text-invert) 26%, transparent);
+  box-shadow: 0 12px 28px rgba(10, 12, 16, 0.52);
+}
+
+.favBtn :global(svg) {
+  width: 22px;
+  height: 22px;
+}
+
+.favBtnActive {
+  color: var(--accent-500);
+  border-color: color-mix(in srgb, var(--accent-500) 60%, transparent);
+}
+
+.poster {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  flex: 0 0 auto;
+}
+
+.posterPlaceholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(20, 24, 32, 0.95), rgba(10, 12, 16, 0.85));
+  color: var(--text-invert);
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.posterPlaceholderTitle {
+  font-size: 16px;
+  line-height: 1.4;
+  opacity: 0.95;
+}
+
+/* Make movie card text readable on the brand/nav background */
+.movieCard,
+.meta,
+.title,
+.overview,
+.submeta,
+.tagline,
+.rating,
+.ratingNum,
+.ratingStar {
+  color: var(--text-invert);
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  margin: 10px 0 8px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--text-invert) 28%, transparent),
+    transparent
+  );
+  box-shadow: 0 0 10px color-mix(in srgb, var(--text-invert) 10%, transparent);
+  opacity: 0.8;
+}
+
+.meta {
+  padding: 14px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.submeta {
+  margin-top: 6px;
+  color: var(--surface-muted);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  line-height: 1.5;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.metaPart {
+  flex: 0 0 auto;
+}
+
+.metaSep {
+  flex: 0 0 auto;
+  opacity: 0.9;
+}
+
+.tagline {
+  color: var(--surface-muted);
+  font-style: italic;
+  font-weight: 600;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title {
+  font-weight: 900;
+  font-size: 19px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.homeTitle {
+  font-size: 19px;
+}
+
+.homeOverview {
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 600;
+  /* Clamp so card bottoms match across the row */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 5;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  min-height: calc(1.55em * 5);
+}
+
+.rating {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.ratingNum {
+  font-size: 23px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.ratingStar {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--rating-gold);
+}
+
+.homeRatingNum {
+  font-size: 49px;
+}
+
+.homeRatingStar {
+  font-size: 20px;
+  color: var(--rating-gold);
+}
+
+.overview {
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 650;
+  color: color-mix(in srgb, var(--text-invert) 90%, transparent);
+  /* Clamp so card bottoms match across the row */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 5;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  min-height: calc(1.5em * 5);
+}
